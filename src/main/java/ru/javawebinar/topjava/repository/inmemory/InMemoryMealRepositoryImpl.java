@@ -29,9 +29,9 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
     }
 
     @Override
-    public void delete(int id, int userId) {
+    public boolean delete(int id, int userId) {
         Meal meal = get(id, userId);
-        if (meal != null) repository.remove(id);
+        return meal != null && repository.remove(id) != null;
     }
 
     @Override
