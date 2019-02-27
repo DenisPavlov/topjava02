@@ -21,12 +21,12 @@ public class MealRestController {
     private MealService service;
 
     public List<MealTo> getAll() {
-        log.debug("getAll");
+        log.info("getAll");
         return getFilteredWithExcess(service.getAll(authUserId()), authUserCaloriesPerDay(), LocalTime.MIN, LocalTime.MAX);
     }
 
     public MealTo get(int id){
-        log.debug("get {}", id);
+        log.info("get {}", id);
         return createWithExcess(service.get(id, authUserId()), null);
     }
 
