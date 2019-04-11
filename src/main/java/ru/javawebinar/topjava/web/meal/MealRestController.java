@@ -18,14 +18,11 @@ import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
 @Controller
-public class MealRestController {
+public class MealRestController extends MealBaseController {
     private static final Logger log = LoggerFactory.getLogger(MealRestController.class);
 
-    private final MealService service;
-
-    @Autowired
-    public MealRestController(MealService service) {
-        this.service = service;
+    protected MealRestController(MealService service) {
+        super(service);
     }
 
     public Meal get(int id) {
@@ -40,10 +37,9 @@ public class MealRestController {
         service.delete(id, userId);
     }
 
+    @Override
     public List<MealTo> getAll() {
-        int userId = SecurityUtil.authUserId();
-        log.info("getAll for user {}", userId);
-        return MealsUtil.getWithExcess(service.getAll(userId), SecurityUtil.authUserCaloriesPerDay());
+        return super.getAll();
     }
 
     public Meal create(Meal meal) {
