@@ -12,9 +12,13 @@ import ru.javawebinar.topjava.web.SecurityUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 
+import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalDate;
+import static ru.javawebinar.topjava.util.DateTimeUtil.parseLocalTime;
 import static ru.javawebinar.topjava.util.ValidationUtil.checkNew;
 
 @Controller
@@ -36,6 +40,16 @@ public class JspMealController extends MealBaseController {
         Meal meal = new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000);
         model.addAttribute("meal", meal);
         return "mealForm";
+    }
+
+    @PostMapping("meals/filter")
+    public String filterMeals(HttpServletRequest request) {
+        LocalDate startDate = parseLocalDate(request.getParameter("startDate"));
+        LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
+        LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
+        LocalTime endTime = parseLocalTime(request.getParameter("endTime"));
+        request.setAttribute("meals", getBetween(startDate, startTime, endDate, endTime));
+        return "meals";
     }
 
     @PostMapping("/meals")

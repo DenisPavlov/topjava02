@@ -55,18 +55,4 @@ public class MealRestController extends MealBaseController {
         log.info("update {} for user {}", meal, userId);
         service.update(meal, userId);
     }
-
-    /**
-     * <ol>Filter separately
-     * <li>by date</li>
-     * <li>by time for every date</li>
-     * </ol>
-     */
-    public List<MealTo> getBetween(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
-        int userId = SecurityUtil.authUserId();
-        log.info("getBetween dates({} - {}) time({} - {}) for user {}", startDate, endDate, startTime, endTime, userId);
-
-        List<Meal> mealsDateFiltered = service.getBetweenDates(startDate, endDate, userId);
-        return MealsUtil.getFilteredWithExcess(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startTime, endTime);
-    }
 }

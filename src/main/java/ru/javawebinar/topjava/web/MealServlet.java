@@ -49,13 +49,6 @@ public class MealServlet extends HttpServlet {
             }
             response.sendRedirect("meals");
 
-        } else if ("filter".equals(action)) {
-            LocalDate startDate = parseLocalDate(request.getParameter("startDate"));
-            LocalDate endDate = parseLocalDate(request.getParameter("endDate"));
-            LocalTime startTime = parseLocalTime(request.getParameter("startTime"));
-            LocalTime endTime = parseLocalTime(request.getParameter("endTime"));
-            request.setAttribute("meals", mealController.getBetween(startDate, startTime, endDate, endTime));
-            request.getRequestDispatcher("/meals.jsp").forward(request, response);
         }
     }
 
