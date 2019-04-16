@@ -45,7 +45,7 @@ public class MealServlet extends HttpServlet {
             if (StringUtils.isEmpty(request.getParameter("id"))) {
                 mealController.create(meal);
             } else {
-                mealController.update(meal, getId(request));
+//                mealController.update(meal, getId(request));
             }
             response.sendRedirect("meals");
 
@@ -62,19 +62,6 @@ public class MealServlet extends HttpServlet {
                 mealController.delete(id);
                 response.sendRedirect("meals");
                 break;
-            case "create":
-            case "update":
-                final Meal meal = "create".equals(action) ?
-                        new Meal(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES), "", 1000) :
-                        mealController.get(getId(request));
-                request.setAttribute("meal", meal);
-                request.getRequestDispatcher("/mealForm.jsp").forward(request, response);
-                break;
-//            case "all":
-//            default:
-//                request.setAttribute("meals", mealController.getAll());
-//                request.getRequestDispatcher("/meals.jsp").forward(request, response);
-//                break;
         }
     }
 

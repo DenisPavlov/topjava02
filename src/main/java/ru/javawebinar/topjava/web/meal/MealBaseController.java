@@ -13,6 +13,8 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import static ru.javawebinar.topjava.util.ValidationUtil.assureIdConsistent;
+
 public abstract class MealBaseController {
     private static final Logger log = LoggerFactory.getLogger(MealBaseController.class);
 
@@ -41,5 +43,12 @@ public abstract class MealBaseController {
 
         List<Meal> mealsDateFiltered = service.getBetweenDates(startDate, endDate, userId);
         return MealsUtil.getFilteredWithExcess(mealsDateFiltered, SecurityUtil.authUserCaloriesPerDay(), startTime, endTime);
+    }
+
+    protected void update(Meal meal, int id) {
+        int userId = SecurityUtil.authUserId();
+        assureIdConsistent(meal, id);
+        log.info("update {} for user {}", meal, userId);
+        service.update(meal, userId);
     }
 }
